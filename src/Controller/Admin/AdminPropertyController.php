@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Option;
 use App\Entity\Property;
 use App\Form\PropertyType;
 use App\Repository\PropertyRepository;
@@ -32,7 +33,7 @@ class AdminPropertyController extends AbstractController
     public function index()
     {
         $properties = $this->repository->findAll();
-        return $this->render('admin/index.html.twig', compact('properties'));
+        return $this->render('admin/property/index.html.twig', compact('properties'));
     }
     /**
      * 
@@ -50,7 +51,7 @@ class AdminPropertyController extends AbstractController
             $this->addFlash('success', 'Modifié avec succès');
             return $this->redirectToRoute('admin.property.index');
         }
-        return $this->render('admin/edit.html.twig', [
+        return $this->render('admin/property/edit.html.twig', [
             'property' => $property,
             'form' => $form->createView()
         ]);
@@ -71,7 +72,7 @@ class AdminPropertyController extends AbstractController
             $this->addFlash('success', 'Créé avec succès');
             return $this->redirectToRoute('admin.property.index');
         }
-        return $this->render('admin/new.html.twig', [
+        return $this->render('admin/property/new.html.twig', [
             'property' => $property,
             'form' => $form->createView()
         ]);
