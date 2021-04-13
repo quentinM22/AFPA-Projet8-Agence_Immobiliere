@@ -36,7 +36,7 @@ class PropertyType extends AbstractType
             ])
             ->add('heat', null, [
                 'label' => 'Chauffage'
-                // ], ChoiceType::class, [
+                //],  ChoiceType::class, [
                 //     'choices' => $this->getchoices()
             ])
             ->add('city', null, [

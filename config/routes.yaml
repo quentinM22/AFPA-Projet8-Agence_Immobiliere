@@ -7,3 +7,5 @@
 # proprety.index:
 #   path: /biens
 #   controller: App\Controller\PropretyController::index
+logout:
+  path: /logout
