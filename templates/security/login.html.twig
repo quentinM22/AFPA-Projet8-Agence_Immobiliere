@@ -2,9 +2,8 @@
 {% block title 'Se Connecter' %}
 {% block body %}
 {% if error %}
-  <div class="alert alert-danger " style='font-size: 30px;'>
+  <div class="alert alert-danger " >
   {{ error.messageKey | trans(error.messagedata, 'security') }}
-  {{error}}
   </div>
 {% endif %}
 <div class='container mt-4'>
