@@ -36,3 +36,6 @@ services:
 #       $twig: "@twig"   cmd . php bin/console debug:container
 
 # Doctrine\Common\Persistence\ObjectManager: "@doctrine.orm.default_entity_manager"
+  App\Listener\ImageCacheSubscriber:
+    tags:
+      - { name: doctrine.event.subscriber }
