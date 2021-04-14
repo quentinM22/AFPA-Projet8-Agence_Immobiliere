@@ -41,7 +41,7 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "2.3",
-            "ref": "9777bf185961283a450b6237281132935025fe04"
+            "ref": "6e0f582596a8f1c865aaa0d3cceb9bf0daf609b4"
         },
         "files": [
             "./config/packages/doctrine.yaml",
@@ -64,12 +64,12 @@
         ]
     },
     "doctrine/doctrine-migrations-bundle": {
-        "version": "2.2",
+        "version": "3.1",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "2.2",
-            "ref": "baaa439e3e3179e69e3da84b671f0a3e4a2f56ad"
+            "version": "3.1",
+            "ref": "ee609429c9ee23e22d6fa5728211768f51ed2818"
         },
         "files": [
             "./config/packages/doctrine_migrations.yaml",

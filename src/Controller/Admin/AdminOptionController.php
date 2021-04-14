@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminOptionController extends AbstractController
 {
     /**
-     * @Route("/", name="option_index", methods={"GET"})
+     * @Route("/", name="admin.option.index", methods={"GET"})
      */
     public function index(OptionRepository $optionRepository): Response
     {
