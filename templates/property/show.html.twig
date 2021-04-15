@@ -4,21 +4,45 @@
 {% block body %}
 <div class="jumbotron">
     <div class="container">
-        <div class="row">
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{message}}
+    </div>
+    {% endfor %}
+       <div class="row">
             <div class="col-md-8">
-            {% if property.filename %} 
-            <img src="{{ vich_uploader_asset(property,'imageFile') | imagine_filter('medium') }}" alt='card-img-top' style="width=100%; height:auto;"/>
-            {% else %}
-            <img src="{{ '/images/properties/empty.jpg' | imagine_filter('medium') }}" alt='card-img-top' style="width=100%; height:auto;"/>
-            {% endif %}
-            </div> 
-            <div class="col-md-4 text-right">
-                <h1>{{ property.title }}</h1> 
-                <h2>{{ property.rooms }} pièces - {{ property.surface }} m²</h2>
-                <div class="text-danger"><h2>{{ property.formattedPrice }} €</h2></div>
-                <a href="#" class="btn btn-primary ">Contacter l'agence</a>
-            </div> 
-           </div>
+                <div data-slider>
+                    {% if property.imageFile is empty %}
+                        <img src="{{ vich_uploader_asset(property, 'imageFile') | imagine_filter('medium') }}" alt="card-img-top" style="width: 100%; height:auto;">
+
+                    {% else %}
+                        <img src="{{ '/images/properties/empty.jpg' | imagine_filter('medium') }}" alt="card-img-top" style="width: 100%; height:auto;">
+
+                    
+                    {% endif %}
+                </div>
+            </div>
+                <div class="col-md-4">
+                    <h1>{{ property.title }}</h1>
+                    <h2>{{ property.rooms }} pièces - {{ property.surface }} m²</h2>
+                    <div class="text-primary" style="font-weight: bold;font-size: 4rem;">{{ property.formattedPrice }} €</div>
+                    <a href="#" class="btn btn-primary" id="contactButton">Contacter l'agence</a>
+                    <div id="contactForm" class="mt-4">
+                    {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col">{{ form_row(form.lastname) }}</div>
+                        <div class="col">{{ form_row(form.firstname) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">{{ form_row(form.phone) }}</div>
+                        <div class="col">{{ form_row(form.email) }}</div>
+                    </div>
+                    {{ form_rest(form) }}
+                    <div class="btn btn-primary">Envoyer</div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="container">

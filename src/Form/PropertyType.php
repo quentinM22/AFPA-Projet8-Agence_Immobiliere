@@ -40,7 +40,7 @@ class PropertyType extends AbstractType
             ->add('heat', null, [
                 'label' => 'Chauffage'
             ],  ChoiceType::class, [
-                'choices' => $this->getChoices()
+                'choices' => array_flip(Property::HEAT)
             ])
             ->add('city', null, [
                 'label' => 'Ville'
@@ -61,7 +61,9 @@ class PropertyType extends AbstractType
                 'required' => false
             ])
             ->add('imageFile', FileType::class, [
-                'required' => false
+                'required' => false,
+                'label_attr' => ['data-browse' => 'Parcourir'],
+                'multiple' => true
             ]);
     }
 
