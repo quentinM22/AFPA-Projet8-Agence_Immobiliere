@@ -63,7 +63,6 @@ class PropertyType extends AbstractType
             ->add('imageFile', FileType::class, [
                 'required' => false,
                 'label_attr' => ['data-browse' => 'Parcourir'],
-                'multiple' => true
             ]);
     }
 
