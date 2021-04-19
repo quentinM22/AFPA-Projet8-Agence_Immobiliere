@@ -6,7 +6,7 @@
     <div class="container">
     {% for message in app.flashes('success') %}
     <div class="alert alert-success">
-        {{message}}
+    {{message}}
     </div>
     {% endfor %}
        <div class="row">
@@ -26,21 +26,28 @@
                     <h1>{{ property.title }}</h1>
                     <h2>{{ property.rooms }} pièces - {{ property.surface }} m²</h2>
                     <div class="text-primary" style="font-weight: bold;font-size: 4rem;">{{ property.formattedPrice }} €</div>
-                    <a href="#" class="btn btn-primary" id="contactButton">Contacter l'agence</a>
-                    <div id="contactForm" class="mt-4">
-                        {{ form_start(form) }}
-                        <div class="row">
-                            <div class="col">{{ form_row(form.lastname) }}</div>
-                            <div class="col">{{ form_row(form.firstname) }}</div>
+                    <a href="#" class="btn btn-primary" id="btnPopup">Contacter l'agence</a>
+                    <div id="overlay" class="overlay">
+                        <div id="popup" class="popup">
+                            <h2>Formulaire de contact
+                            <span id="btnClose" class="btnClose">&times;</span>
+                            </h2>
+                            <div id="contactForm" class="mt-4">
+                                {{ form_start(form) }}
+                                <div class="row">
+                                    <div class="col">{{ form_row(form.lastname) }}</div>
+                                    <div class="col">{{ form_row(form.firstname) }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">{{ form_row(form.phone) }}</div>
+                                    <div class="col">{{ form_row(form.email) }}</div>
+                                </div>
+                                {{ form_rest(form) }}
+                                {{ form_end(form) }}
+                            </div>
                         </div>
-                        <div class="row">
-                            <div class="col">{{ form_row(form.phone) }}</div>
-                            <div class="col">{{ form_row(form.email) }}</div>
-                        </div>
-                        {{ form_rest(form) }}
-                        {{ form_end(form) }}
                     </div>
-                </div>
+                </div>    
             </div>
         </div>
     </div>
@@ -88,4 +95,46 @@
    </div>
 </div>
 
-{% endblock %}
+
+<style>
+    .overlay {
+position: fixed;
+left: 0px;
+top:0px;
+background-color: rgba(0,0 ,0 , 0.5);
+width: 100%;
+height: 100%;
+z-index:1;
+display:none;
+}
+.popup{
+margin: 10% auto;
+width : 70%;
+background-color: rgb(243, 243, 243);
+padding: 1em;
+box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+border-radius: 5px;
+}
+.btnClose {
+float: right;
+font-size:16pt;
+cursor: pointer;
+color: rgb(26, 26, 26);
+}
+	</style>
+	<script>
+//--Affichage PopUp
+let btnPopup = document.querySelector('#btnPopup');
+let overlay = document.querySelector('#overlay');
+btnPopup.addEventListener('click',openMoadl);
+function openMoadl() {
+overlay.style.display='block';
+}
+//--Fermé PopUp
+let btnClose = document.getElementById('btnClose');
+btnClose.addEventListener('click',closeModal);
+function closeModal() {
+overlay.style.display='none';
+}
+    </script>
+    {% endblock %}
