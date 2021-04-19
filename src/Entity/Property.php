@@ -28,6 +28,7 @@ class Property
     ];
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity _Picture", mappedBy="property", orphanRemoval=true,       cascade={"persist"})
      * @ORM\Column(type="string", length=255)
      * @var string|null
      */
