@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PropertyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,12 +16,31 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
+use Symfony\Component\Serializer\Annotation\Groups;
+use App\Controller\ApiController\PropertyPublishController;
+// use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 
 /**
  * @ORM\Entity(repositoryClass=PropertyRepository::class)
  * @UniqueEntity("title")
  * @Vich\Uploadable
+ * 
+ * @ApiResource(
+ *  paginationItemsPerPage= 2,
+ *  paginationMaximumItemsPerPage= 2,
+ *  paginationClientItemsPerPage= true,
+ *  normalizationContext={
+ *      "groups"={"read:collection"},
+ *      "openapi_definition_name" = "Collection"
+ *  },
+ *  denormalizationContext={"groups"={"write:Property"}},
+ *  collectionOperations={
+ *      "get",
+ *      "post"
+ *      },
+ *  )
  */
 class Property
 {
@@ -46,79 +68,114 @@ class Property
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"read:collection"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=5, max=255)
+     *
+     * @Groups({"read:collection", "write:Property"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *
+     * @Groups({"write:Property"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\Range(min= 10, max=300)
+     *
+     * @Groups({"write:Property"})
      */
     private $surface;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"write:Property"})
      */
     private $rooms;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"write:Property"})
      */
     private $bedrooms;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"write:Property"})
      */
     private $floor;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"read:collection","write:Property"})
      */
     private $price;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     * @Groups({ "write:Property"})
      */
     private $heat;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups({"write:Property"})
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups({"write:Property"})
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Regex("/^[0-9]{5}$/")
+     *
+     * @Groups({"write:Property"})
      */
     private $postal_code;
 
     /**
      * @ORM\Column(type="boolean", options={"default": false})
+     *
+     * @Groups({"read:collection", "read:collection"})
      */
     private $sold = false;
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     *
+     * @Groups({"write:Property"})
+     * @ApiProperty(openapiContext={"type" = "boolean", "description" = "Vendu ou pas?"})
      */
     private $created_at;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Option::class, inversedBy="properties")
+     * @ORM\ManyToMany(targetEntity=Option::class, inversedBy="properties", cascade="persist")
+     *
+     * @Groups({"write:Property", "read:item"})
+     * @Assert\Valid(
+     *     groups={"create:Property"}
+     * )
      */
     private $options;
 
@@ -373,5 +430,11 @@ class Property
 
 
         return $this;
+    }
+    public static function validationGroups(self $post)
+    {
+        return [
+            "create:Property",
+        ];
     }
 }
