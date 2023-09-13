@@ -68,6 +68,12 @@ class PropertyRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    private function findVisibleQuery(): QueryBuilder
+    {
+        return $this
+            ->createQueryBuilder('p')
+            ->where('p.sold = false');
+    }
 
     // /**
     //  * @return Property[] Returns an array of Property objects
@@ -98,10 +104,5 @@ class PropertyRepository extends ServiceEntityRepository
     }
     */
 
-    private function findVisibleQuery(): QueryBuilder
-    {
-        return $this
-            ->createQueryBuilder('p')
-            ->where('p.sold = false');
-    }
+    
 }

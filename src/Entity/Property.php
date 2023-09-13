@@ -28,11 +28,12 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  * @Vich\Uploadable
  * 
  * @ApiResource(
- *  paginationItemsPerPage= 2,
- *  paginationMaximumItemsPerPage= 2,
- *  paginationClientItemsPerPage= true,
+ * 
+ *  attributes={
+ *    "order"={"created_at":"DESC"}
+ *  },
  *  normalizationContext={
- *      "groups"={"read:collection"},
+ *      "groups"={"read:collection", "write:Property"},
  *      "openapi_definition_name" = "Collection"
  *  },
  *  denormalizationContext={"groups"={"write:Property"}},
@@ -40,6 +41,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *      "get",
  *      "post"
  *      },
+ *  itemOperations={"get", "put", "delete"}
  *  )
  */
 class Property
@@ -53,6 +55,8 @@ class Property
      * @ORM\OneToMany(targetEntity="App\Entity _Picture", mappedBy="property", orphanRemoval=true,       cascade={"persist"})
      * @ORM\Column(type="string", length=255)
      * @var string|null
+     * 
+     * @Groups({"write:Property"})
      */
     private $filename;
 
@@ -60,6 +64,8 @@ class Property
      * @Vich\UploadableField(mapping = "property_image", fileNameProperty = "filename")
      * @var File|null
      * @Assert\Image(mimeTypes="image/jpeg")
+     * 
+     * @Groups({"write:Property"})
      */
     private $imageFile;
 

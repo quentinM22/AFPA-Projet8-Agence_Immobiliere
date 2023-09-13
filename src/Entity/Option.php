@@ -32,7 +32,7 @@ class Option
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"write:Proprerty"})
+     * @Groups({"write:Property"})
      * @Assert\Length(
      *     min = 3,
      *     groups={"create:Property"}
